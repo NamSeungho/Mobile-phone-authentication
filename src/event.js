@@ -26,6 +26,21 @@ function detectRequestButtonStatus () {
     document.getElementById('request_button').disabled = !validator.validateAll(result);
 }
 
+// 현재 입력값 폼이 오류 상태인지 확인
+function containsError (element) {
+    return element.classList.contains('error');
+}
+
+// validator 통과를 못 할 경우 error 클래스 부여
+function addError (element) {
+    return element.classList.add('error');
+}
+
+// validator 통과를 했다면 error 클래스 제거
+function removeError (element) {
+    return element.classList.remove('error');
+}
+
 export default {
     handleSelectCarrier: function () {
         document.getElementById('input_phone_number').focus();
@@ -34,9 +49,9 @@ export default {
     },
     handleBlurCarrier: function () {
         if (validator.validateCarrier(this.value)) {
-            this.parentElement.classList.remove('error');
+            removeError(this.parentElement);
         } else {
-            this.parentElement.classList.add('error');
+            addError(this.parentElement);
         }
     },
     handleInputPhoneNumber: function () {
@@ -47,8 +62,8 @@ export default {
             value = value.substr(0, 11);
         }
 
-        if (this.parentElement.classList.contains('error') && validator.validatePhoneNumber(value)) {
-            this.parentElement.classList.remove('error');
+        if (containsError(this.parentElement) && validator.validatePhoneNumber(value)) {
+            removeError(this.parentElement);
         }
 
         if (value.length <= 3) {
@@ -71,9 +86,9 @@ export default {
         const value = this.value.replace(/[ ]/g, '');
 
         if (validator.validatePhoneNumber(value)) {
-            this.parentElement.classList.remove('error');
+            removeError(this.parentElement);
         } else {
-            this.parentElement.classList.add('error');
+            addError(this.parentElement);
         }
     },
     handleInputRegisterNumber: function () {
@@ -84,8 +99,8 @@ export default {
             value = value.substr(0, 7);
         }
 
-        if (this.parentElement.classList.contains('error') && validator.validateRegisterNumber(value)) {
-            this.parentElement.classList.remove('error');
+        if (containsError(this.parentElement) && validator.validateRegisterNumber(value)) {
+            removeError(this.parentElement);
         }
 
         if (value.length === 7) {
@@ -103,9 +118,9 @@ export default {
         const value = this.value.replace(/[-]/g, '');
 
         if (validator.validateRegisterNumber(value)) {
-            this.parentElement.classList.remove('error');
+            removeError(this.parentElement);
         } else {
-            this.parentElement.classList.add('error');
+            addError(this.parentElement);
         }
     },
     handleInputName: function () {
@@ -118,17 +133,17 @@ export default {
             this.value = value;
         }
 
-        if (this.parentElement.classList.contains('error') && validator.validateName(this.value)) {
-            this.parentElement.classList.remove('error');
+        if (containsError(this.parentElement) && validator.validateName(this.value)) {
+            removeError(this.parentElement);
         }
 
         detectRequestButtonStatus();
     },
     handleBlurName: function () {
         if (validator.validateName(this.value)) {
-            this.parentElement.classList.remove('error');
+            removeError(this.parentElement);
         } else {
-            this.parentElement.classList.add('error');
+            addError(this.parentElement);
         }
     },
     handleChangeTermsAllItem: function () {
